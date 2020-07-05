@@ -9,7 +9,7 @@ project(sdl2_roguelike)
 
 set(CMAKE_CXX_STANDARD 11)
 
-# use FindSDL2.cmake
+# use FindSDL2*.cmake scripts
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/bin")
