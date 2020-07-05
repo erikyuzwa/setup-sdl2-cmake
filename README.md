@@ -1,6 +1,21 @@
 # setup-sdl2-cmake
 a bunch of CMake configuration files for handling SDL2
 
+I'm (dumbly?) sometimes in a situation where I need to flip between SDL2 development
+work on my Mac and PC. It's quite tricky setting up an environment that can handle
+this "platform toggling" without headaches.
+
+CMake provides an improvement - usually - to the process, allowing me to work
+on the same codebase on PC / Mac.
+
+## setting up
+
+- Create a `CMake` compatible project in CLion or Visual Studio (on PC)
+- Clone this repo so that the `cmake` folder is in your project's root folder
+- Add `extern/` directory to your project `.gitignore` file
+- Run `python3 setup-win32.py` (only needed on Windows) to download the common SDL2 libs
+
+
 # sample CMakeLists.txt
 
 ```
