@@ -88,6 +88,30 @@ if(APPLE)
           )
 endif(APPLE)
 
+# post build we need to copy the SDL DLL's from extern to our bin folder -- win32 only
+if(WIN32)
+  set( THIRD_PARTY_DLLS
+          extern/SDL2-2.0.12/lib/x86/SDL2.dll
+          extern/SDL2_image-2.0.5/lib/x86/SDL2_image.dll
+          extern/SDL2_image-2.0.5/lib/x86/libjpeg-9.dll
+          extern/SDL2_image-2.0.5/lib/x86/libpng16-16.dll
+          extern/SDL2_mixer-2.0.4/lib/x86/SDL2_mixer.dll
+          extern/SDL2_mixer-2.0.4/lib/x86/libogg-0.dll
+          extern/SDL2_ttf-2.0.15/lib/x86/SDL2_ttf.dll
+          extern/SDL2_ttf-2.0.15/lib/x86/libfreetype-6.dll
+          extern/SDL2_ttf-2.0.15/lib/x86/zlib1.dll
+          )
+
+  # do the copying
+  foreach( file_i ${THIRD_PARTY_DLLS})
+    add_custom_command(
+            TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy ${file_i} "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
+    )
+  endforeach( file_i )
+
+endif(WIN32)
+
 ```
 
 
