@@ -11,10 +11,11 @@ on the same codebase on PC / Mac.
 ## setting up
 
 - Create a `CMake` compatible project in CLion or Visual Studio (on PC)
-- Clone this repo so that the `cmake` folder is in your project's root folder
+- Clone this repo so that the `cmake` folder is in your project's root folder (or download
+this repository as a zip file)
 - Add `extern/` directory to your project `.gitignore` file
-- Run `python3 setup-win32.py` (only needed on Windows) to download the common SDL2 libs
-
+- Run `python3 setup-win32.py` (only needed on Windows) from project root to download the common SDL2 libs
+- Update your local `CMakeLists.txt` with something close to what's here in the README
 
 # sample CMakeLists.txt
 
@@ -40,10 +41,10 @@ endif(WIN32)
 
 # set SDL2 paths on windows
 if(WIN32)
-  set(SDL2_PATH "C:/SDL2-2.0.12")
-  set(SDL2_TTF_PATH "C:/SDL2_ttf-2.0.15")
-  set(SDL2_IMAGE_PATH "C:/SDL2_image-2.0.5")
-  set(SDL2_MIXER_PATH "C:/SDL2_mixer-2.0.4")
+  set(SDL2_PATH "${PROJECT_SOURCE_DIR}/extern/SDL2-2.0.12")
+  set(SDL2_TTF_PATH "${PROJECT_SOURCE_DIR}/extern/SDL2_ttf-2.0.15")
+  set(SDL2_IMAGE_PATH "${PROJECT_SOURCE_DIR}/extern/SDL2_image-2.0.5")
+  set(SDL2_MIXER_PATH "${PROJECT_SOURCE_DIR}/extern/SDL2_mixer-2.0.4")
 endif(WIN32)
 
 # Find SDL2, SDL2_image libraries
