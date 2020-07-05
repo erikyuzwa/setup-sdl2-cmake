@@ -26,10 +26,10 @@ os.chdir(externFolder)
 downloadZip('https://www.libsdl.org/release/SDL2-devel-2.0.12-VC.zip', 'SDL2-2.0.12')
 
 # SDL2_image
-downloadZip('https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.5-VC.zip', 'SDL2-image-2.0.5')
+downloadZip('https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.0.5-VC.zip', 'SDL2_image-2.0.5')
 
 # SDL2_mixer
-downloadZip('https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.4-VC.zip', 'SDL2-mixer-2.0.4')
+downloadZip('https://www.libsdl.org/projects/SDL_mixer/release/SDL2_mixer-devel-2.0.4-VC.zip', 'SDL2_mixer-2.0.4')
 
 # SDL2_ttf
-downloadZip('https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.0.15-VC.zip', 'SDL2-ttf-2.0.15')
+downloadZip('https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.0.15-VC.zip', 'SDL2_ttf-2.0.15')
