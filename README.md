@@ -122,7 +122,7 @@ couldn't have done it without them:
 - https://gitlab.com/aminosbh/sdl2-cmake-modules
 - https://trenki2.github.io/blog/2017/06/02/using-sdl2-with-cmake/
 - https://shot511.github.io/2018-05-29-how-to-setup-opengl-project-with-cmake/
-
+- https://stackoverflow.com/questions/14368919/cmake-custom-command-copy-multiple-files
 
 # LICENSE
 
