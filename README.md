@@ -13,15 +13,13 @@ on the same codebase on PC / Mac.
 - Create a `CMake` compatible project in CLion or Visual Studio (on PC)
 - Clone this repo so that the `cmake` folder is in your project's root folder (or download
 this repository as a zip file)
-- Add `extern/` directory to your project `.gitignore` file
-- Run `python3 setup-win32.py` (only needed on Windows) from project root to download the common SDL2 libs
 - Update your local `CMakeLists.txt` with something close to what's here in the README
 
 # sample CMakeLists.txt
 
 ```
-cmake_minimum_required(VERSION 3.16)
-project(sdl2_roguelike)
+cmake_minimum_required(VERSION 3.8)
+project("helloworld")
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -40,11 +38,12 @@ if(WIN32)
 endif(WIN32)
 
 # set SDL2 paths on windows
+# TODO: THIS IS WHERE YOU DEFINE YOUR OWN SDL2 INSTALL
 if(WIN32)
-  set(SDL2_PATH "${PROJECT_SOURCE_DIR}/extern/SDL2-2.0.12")
-  set(SDL2_TTF_PATH "${PROJECT_SOURCE_DIR}/extern/SDL2_ttf-2.0.15")
-  set(SDL2_IMAGE_PATH "${PROJECT_SOURCE_DIR}/extern/SDL2_image-2.0.5")
-  set(SDL2_MIXER_PATH "${PROJECT_SOURCE_DIR}/extern/SDL2_mixer-2.0.4")
+  set(SDL2_PATH "C:/SDL2-2.0.16")
+  set(SDL2_TTF_PATH "c:/SDL2_ttf-2.0.15")
+  set(SDL2_IMAGE_PATH "c:/SDL2_image-2.0.5")
+  set(SDL2_MIXER_PATH "c:/SDL2_mixer-2.0.4")
 endif(WIN32)
 
 # Find SDL2, SDL2_image libraries
@@ -54,56 +53,55 @@ find_package(SDL2_ttf REQUIRED)
 find_package(SDL2_mixer REQUIRED)
 
 include_directories(
-        "src/"
-        ${SDL2_INCLUDE_DIR}
-        ${SDL2_TTF_INCLUDE_DIR}
-        ${SDL2_IMAGE_INCLUDE_DIR}
-        ${SDL2_MIXER_INCLUDE_DIR}
+    "src/"
+    ${SDL2_INCLUDE_DIR}
+    ${SDL2_TTF_INCLUDE_DIR}
+    ${SDL2_IMAGE_INCLUDE_DIR}
+    ${SDL2_MIXER_INCLUDE_DIR}
 )
 
 set(SOURCE_FILES
-        "src/main.cpp"
-        )
+  "src/main.cpp"
+)
 
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 # Win32 needs to use SDL2_LIBRARIES to include SDL2main.lib
 if(WIN32)
 target_link_libraries(${PROJECT_NAME}
-        ${SDL2_LIBRARIES}
-        ${SDL2_TTF_LIBRARY}
-        ${SDL2_IMAGE_LIBRARY}
-        ${SDL2_MIXER_LIBRARY}
-        )
+    ${SDL2_LIBRARIES}
+    ${SDL2_TTF_LIBRARIES}
+    ${SDL2_IMAGE_LIBRARIES}
+    ${SDL2_MIXER_LIBRARIES}
+)
 endif(WIN32)
 
 # Mac is fine with just SDL2_LIBRARY (using SDL2_LIBRARIES here complains about missing a
 # Cocoa Framework lib)
 if(APPLE)
   target_link_libraries(${PROJECT_NAME}
-          ${SDL2_LIBRARY}
-          ${SDL2_TTF_LIBRARY}
-          ${SDL2_IMAGE_LIBRARY}
-          ${SDL2_MIXER_LIBRARY}
-          )
+    ${SDL2_LIBRARY}
+    ${SDL2_TTF_LIBRARIES}
+    ${SDL2_IMAGE_LIBRARIES}
+    ${SDL2_MIXER_LIBRARIES}
+)
 endif(APPLE)
 
-# post build we need to copy the SDL DLL's from extern to our bin folder -- win32 only
-# TODO: need an autodetect for which platform we're building -- x86 or x64
+# post build we need to copy the SDL DLL's from extern to our bin folder
 if(WIN32)
   set( THIRD_PARTY_DLLS
-          ${PROJECT_SOURCE_DIR}/extern/SDL2-2.0.12/lib/x86/SDL2.dll
-          ${PROJECT_SOURCE_DIR}/extern/SDL2_image-2.0.5/lib/x86/SDL2_image.dll
-          ${PROJECT_SOURCE_DIR}/extern/SDL2_image-2.0.5/lib/x86/libjpeg-9.dll
-          ${PROJECT_SOURCE_DIR}/extern/SDL2_image-2.0.5/lib/x86/libpng16-16.dll
-          ${PROJECT_SOURCE_DIR}/extern/SDL2_mixer-2.0.4/lib/x86/SDL2_mixer.dll
-          ${PROJECT_SOURCE_DIR}/extern/SDL2_mixer-2.0.4/lib/x86/libogg-0.dll
-          ${PROJECT_SOURCE_DIR}/extern/SDL2_ttf-2.0.15/lib/x86/SDL2_ttf.dll
-          ${PROJECT_SOURCE_DIR}/extern/SDL2_ttf-2.0.15/lib/x86/libfreetype-6.dll
-          ${PROJECT_SOURCE_DIR}/extern/SDL2_ttf-2.0.15/lib/x86/zlib1.dll
-          )
+    ${SDL2_PATH}/${VC_LIB_PATH_SUFFIX}/SDL2.dll
+    ${SDL2_IMAGE_PATH}/${VC_LIB_PATH_SUFFIX}/SDL2_image.dll
+    ${SDL2_IMAGE_PATH}/${VC_LIB_PATH_SUFFIX}/libjpeg-9.dll
+    ${SDL2_IMAGE_PATH}/${VC_LIB_PATH_SUFFIX}/libpng16-16.dll
+    ${SDL2_TTF_PATH}/${VC_LIB_PATH_SUFFIX}/SDL2_ttf.dll
+    ${SDL2_TTF_PATH}/${VC_LIB_PATH_SUFFIX}/libfreetype-6.dll
+    ${SDL2_TTF_PATH}/${VC_LIB_PATH_SUFFIX}/zlib1.dll
+    ${SDL2_MIXER_PATH}/${VC_LIB_PATH_SUFFIX}/SDL2_mixer.dll
+    ${SDL2_MIXER_PATH}/${VC_LIB_PATH_SUFFIX}/libogg-0.dll
+  )
 
-  # do the copying
+  # copy the DLLs
   foreach( file_i ${THIRD_PARTY_DLLS})
     add_custom_command(
             TARGET ${PROJECT_NAME} POST_BUILD
