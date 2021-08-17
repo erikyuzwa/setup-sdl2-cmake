@@ -64,7 +64,14 @@ set(SOURCE_FILES
   "src/main.cpp"
 )
 
-add_executable(${PROJECT_NAME} ${SOURCE_FILES})
+# Add source to this project's executable.
+if(WIN32)
+  add_executable (${PROJECT_NAME} WIN32 ${SOURCE_FILES})
+endif(WIN32)
+
+if (APPLE)
+  add_executable (${PROJECT_NAME} ${SOURCE_FILES})
+endif(APPLE)
 
 # Win32 needs to use SDL2_LIBRARIES to include SDL2main.lib
 if(WIN32)
