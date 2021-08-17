@@ -118,6 +118,36 @@ if(WIN32)
 
 endif(WIN32)
 
+# Scan through assets folder for updated files and copy if none existing or changed
+file (GLOB_RECURSE assets "assets/*.*")
+foreach(asset ${assets})
+ get_filename_component(filename ${asset} NAME)
+ get_filename_component(dir ${asset} DIRECTORY)
+ get_filename_component(dirname ${dir} NAME)
+ 
+ set (output "")
+ 
+ while(NOT ${dirname} STREQUAL assets)
+  get_filename_component(path_component ${dir} NAME)
+  set (output "${path_component}/${output}")
+  get_filename_component(dir ${dir} DIRECTORY)
+  get_filename_component(dirname ${dir} NAME)
+ endwhile()
+ 
+ set(output "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets/${output}/${filename}")
+ 
+ add_custom_command(
+  COMMENT "Moving updated resource-file '${filename}'"
+  OUTPUT ${output}
+  DEPENDS ${asset}
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different
+  ${asset}
+  ${output}
+ )
+ add_custom_target(${filename} ALL DEPENDS ${asset} ${output})
+ 
+endforeach()
+
 ```
 
 # REFERENCES
